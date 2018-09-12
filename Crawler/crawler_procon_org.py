@@ -11,9 +11,9 @@ class QuotesSpider(scrapy.Spider):
     ]
 
     def parse(self, response):
-        for proArgument in response.css('.newblue-quote-indent'):
+        for proArgument in response.css('.newblue-pro-quote-box'):
             yield {
-                'Argument': proArgument.css('.newblue-editortext::text').extract(),
+                'Pro argument': proArgument.css('.newblue-editortext::text').extract(),
             }
 
         next_page = response.css('li.next a::attr("href")').extract_first()
