@@ -11,7 +11,7 @@ class QuotesSpider(scrapy.Spider):
     ]
 
     def parse(self, response):
-        for proArgument in response.css('.newblue-editortext'):
+        for proArgument in response.css('.newblue-quote-indent'):
             yield {
                 #'text': proArgument.css('div.newblue-editortext::text').extract_first(), //stops at first <tag> of any sort
                 'text': proArgument.css('.newblue-editortext::text').extract(),
