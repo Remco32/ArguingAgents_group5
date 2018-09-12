@@ -1,3 +1,5 @@
+#scrapy runspider crawler_procon_org.py -o test2.json
+
 import scrapy
 
 
@@ -10,7 +12,8 @@ class QuotesSpider(scrapy.Spider):
     def parse(self, response):
         for proArgument in response.css('div.newblue-editortext'):
             yield {
-                'text': proArgument.css('div.newblue-editortext::text').extract_first(),
+                #'text': proArgument.css('div.newblue-editortext::text').extract_first(), //stops at first <tag> of any sort
+                'text': proArgument.css('div.newblue-editortext::text').extract(),
                 #'author': proArgument.xpath('span/small/text()').extract_first(),
             }
 
