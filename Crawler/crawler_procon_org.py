@@ -6,8 +6,7 @@ import scrapy
 class QuotesSpider(scrapy.Spider):
     name = "arguments_marijuana"
     start_urls = [
-        #'https://medicalmarijuana.procon.org/view.answers.php?questionID=001325',
-        'https://gun-control.procon.org/'
+        'https://medicalmarijuana.procon.org/view.answers.php?questionID=001325',
     ]
 
     def parse(self, response):
