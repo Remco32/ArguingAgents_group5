@@ -3,7 +3,6 @@
 
 import scrapy
 
-
 class QuotesSpider(scrapy.Spider):
     name = "arguments_marijuana"
     start_urls = [
