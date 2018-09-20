@@ -5,9 +5,10 @@ import scrapy
 
 
 class QuotesSpider(scrapy.Spider):
-    name = "pro_arguments_marijuana"
+    name = "arguments_marijuana"
     start_urls = [
-        'https://medicalmarijuana.procon.org/view.answers.php?questionID=001325',
+        #'https://medicalmarijuana.procon.org/view.answers.php?questionID=001325',
+        'https://gun-control.procon.org/'
     ]
 
     def parse(self, response):
