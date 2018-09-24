@@ -11,6 +11,11 @@ class QuotesSpider(scrapy.Spider):
     ]
 
     def parse(self, response):
+        for title in response.css('div.newblue-pro-quote-box'):
+        yield {
+            'Title': title.css('.newblue-arguments-bolded-intro::text').extract(),
+        }
+
         for proArgument in response.css('div.newblue-pro-quote-box'):
             yield {
                 'Pro argument': proArgument.css('.newblue-arguments-bolded-intro::text').extract(),
