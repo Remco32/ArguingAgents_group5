@@ -7,15 +7,15 @@ class QuotesSpider(scrapy.Spider):
     name = "arguments_gun-control"
     start_urls = [
         #'https://medicalmarijuana.procon.org/view.answers.php?questionID=001325',
-        'https://gun-control.procon.org/'
+        'https://gun-control.procon.org/',
+        'https://animal-testing.procon.org/'
     ]
 
     def parse(self, response):
-        for title in response.css('div.newblue-pro-quote-box'):
-        yield {
-            'Title': title.css('.newblue-arguments-bolded-intro::text').extract(),
-        }
 
+        yield{
+            'Title': response.css('title::text').extract_first()
+        }
         for proArgument in response.css('div.newblue-pro-quote-box'):
             yield {
                 'Pro argument': proArgument.css('.newblue-arguments-bolded-intro::text').extract(),
