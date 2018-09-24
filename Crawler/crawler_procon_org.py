@@ -10,6 +10,9 @@ class QuotesSpider(scrapy.Spider):
     ]
 
     def parse(self, response):
+        yield{
+            'Title': response.css('title::text').extract_first()
+        }
         for proArgument in response.css('div.newblue-pro-quote-box > div.newblue-quote-indent'):
             yield {
                 'Pro argument': proArgument.css('.newblue-editortext::text').extract(),
