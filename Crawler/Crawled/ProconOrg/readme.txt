@@ -1,0 +1,1 @@
+The directory short arguments contains arguments that are approximately one sentence long. In contrast, the long arguments directory contains arguments spanning multiple sentences.

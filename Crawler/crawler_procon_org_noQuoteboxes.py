@@ -1,14 +1,19 @@
 ##Run using Scrapy:
 #scrapy runspider filename.py -o output.json
 
+#For some reason arguments get mixed in the JSON file when crawling too many (>2?) pages. Simply crawling one page at a time is a workaround.
+
 import scrapy
 
 class QuotesSpider(scrapy.Spider):
-    name = "arguments_gun-control"
+    name = "arguments_procon_org_noQuoteBoxes"
     start_urls = [
-        #'https://medicalmarijuana.procon.org/view.answers.php?questionID=001325',
-        'https://gun-control.procon.org/',
-        'https://animal-testing.procon.org/'
+        #'https://gun-control.procon.org/',
+        #'https://animal-testing.procon.org/',
+        #'https://marijuana.procon.org/',
+        #'https://school-uniforms.procon.org/',
+        #'https://drinkingage.procon.org/',
+        'https://socialnetworking.procon.org/'
     ]
 
     def parse(self, response):
