@@ -22,6 +22,11 @@ class QuotesSpider(scrapy.Spider):
                 'Point for': claim.css('.field-items > .field-item.even::text').extract_first(),
             }
 
+        for claimCounter in response.css('.field.field-name-field-title.field-type-text.field-label-above'):
+            yield {
+                'Point against': claimCounter.css('.field-items > .field-item.even::text').extract_first(),
+            }
+
 
         next_page = response.css('li.next a::attr("href")').extract_first()
         if next_page is not None:
