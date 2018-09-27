@@ -1,5 +1,5 @@
 ##Run using Scrapy:
-#scrapy runspider crawler_procon_org.py -o output.json
+#scrapy runspider filename.py -o output.json
 
 import scrapy
 
@@ -13,18 +13,17 @@ class QuotesSpider(scrapy.Spider):
 
         yield{
             'Title': response.css('div.debatabase-title::text').extract(),
-            #'Claim': response.css('.field-item even::text').extract(),
         }
 
 
         for claim in response.css('.field.field-name-field-title-point-for.field-type-text.field-label-above'):
             yield {
-                'Point for': claim.css('.field-items > .field-item.even::text').extract_first(),
+                'Pro argument': claim.css('.field-items > .field-item.even::text').extract_first(),
             }
 
         for claimCounter in response.css('.field.field-name-field-title.field-type-text.field-label-above'):
             yield {
-                'Point against': claimCounter.css('.field-items > .field-item.even::text').extract_first(),
+                'Con argument': claimCounter.css('.field-items > .field-item.even::text').extract_first(),
             }
 
 
