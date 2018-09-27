@@ -12,12 +12,14 @@ class QuotesSpider(scrapy.Spider):
     def parse(self, response):
 
         yield{
-            'Title': response.css('.debatabase-title::text').extract(),
+            'Title': response.css('div.debatabase-title::text').extract(),
+            #'Claim': response.css('.field-item even::text').extract(),
         }
 
-        for claim in response.css('div.field-items'):
+
+        for claim in response.css('.content'):
             yield {
-                'Claim': claim.css('div.field-item even::text').extract(),
+                'Claim': claim.css('.field-item.even::text').extract_first(),
             }
 
 
