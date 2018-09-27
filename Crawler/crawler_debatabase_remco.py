@@ -17,9 +17,9 @@ class QuotesSpider(scrapy.Spider):
         }
 
 
-        for claim in response.css('.content'):
+        for claim in response.css('.field.field-name-field-title-point-for.field-type-text.field-label-above'):
             yield {
-                'Claim': claim.css('.field-item.even::text').extract_first(),
+                'Point for': claim.css('.field-items > .field-item.even::text').extract_first(),
             }
 
 
