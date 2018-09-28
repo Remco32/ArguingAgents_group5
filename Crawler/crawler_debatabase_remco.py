@@ -19,8 +19,8 @@ class QuotesSpider(scrapy.Spider):
         for claim in response.css('.entity.entity-field-collection-item.field-collection-item-field-point-for.clearfix'):
             yield {
                 'Pro argument': claim.css('.field-items > .field-item.even::text').extract_first(),
-                #'Point': claim.css('.field.field-name-field-point-point-for.field-type-text-long.field-label-above > .field-items > .field-item.even > p::text').extract(),
                 'Point': claim.css('.field.field-name-field-point-point-for.field-type-text-long.field-label-above > .field-items > .field-item.even > p::text').extract(),
+                'Counterpoint': claim.css('.field.field-name-field-counterpoint-point-for.field-type-text-long.field-label-above > .field-items > .field-item.even > p::text').extract(),
 
                 #'Counterpoint': claim.css().extract(),
 
