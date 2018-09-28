@@ -3,6 +3,7 @@
 
 import scrapy
 
+#TODO order of items gets messed up. Probably has to do with the for-loops
 class QuotesSpider(scrapy.Spider):
     name = "arguments_debatabase"
     start_urls = [
@@ -19,16 +20,16 @@ class QuotesSpider(scrapy.Spider):
         for claim in response.css('.entity.entity-field-collection-item.field-collection-item-field-point-for.clearfix'):
             yield {
                 'Pro argument': claim.css('.field-items > .field-item.even::text').extract_first(),
-                'Point': claim.css('.field.field-name-field-point-point-for.field-type-text-long.field-label-above > .field-items > .field-item.even > p::text').extract(),
+                'Point': claim.css('.field.field-name-field-point-point-for.field-type-text-long.field-label-above > .field-items > .field-item.even > p::text').extract(), #TODO remove sources from mined text
                 'Counterpoint': claim.css('.field.field-name-field-counterpoint-point-for.field-type-text-long.field-label-above > .field-items > .field-item.even > p::text').extract(),
-
-                #'Counterpoint': claim.css().extract(),
 
             }
 
         for claimCounter in response.css('.field.field-name-field-title.field-type-text.field-label-above'):
             yield {
                 'Con argument': claimCounter.css('.field-items > .field-item.even::text').extract_first(),
+                #'Point': claim.css('.field.field-name-field-point-point-for.field-type-text-long.field-label-above > .field-items > .field-item.even > p::text').extract(), #TODO remove sources from mined text
+                #'Counterpoint': claim.css('.field.field-name-field-counterpoint-point-for.field-type-text-long.field-label-above > .field-items > .field-item.even > p::text').extract(),
             }
 
 
