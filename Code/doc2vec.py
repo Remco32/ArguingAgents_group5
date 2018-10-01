@@ -1,6 +1,6 @@
 from gensim.models.doc2vec import Doc2Vec, TaggedDocument
 from nltk.tokenize import word_tokenize
-
+from textCleaner import cleanUp
 
 # data = ["Medical marijuana shows considerable promise in reducing chronic pain",
 #         "As a physician, I have constantly searched for treatment options for my patients' chronic pain.",
@@ -14,19 +14,24 @@ input_file = "./Crawler/Crawled_csv/ProconOrg/shortArguments/animaltesting.csv"
 for line in open(input_file, 'r'):
     data.append(line.split(",")[1].rstrip())
 
-print(data)
+cleaned_data = []
+for argument in data:
+    clean_argument = cleanUp(argument)
+    cleaned_data.append(clean_argument)
+
+data = cleaned_data
 
 # TODO: filter out stop words using nltk
 tagged_data = [TaggedDocument(words=word_tokenize(_d.lower()), tags=[str(i)]) for i, _d in enumerate(data)]
 
 epochs = 500
-vec_size = 100
-alpha = 0.25
+vec_size = 20
+alpha = 0.05
 
 def train(vec_size, alpha, epochs, tagged_data):
     model = Doc2Vec(vector_size=vec_size,  # size of the feature vector
                     alpha=alpha,  # initial learning rate
-                    min_alpha=0.00000025,  # learning rate will linearly decrease to this during training
+                    min_alpha=0.00025,  # learning rate will linearly decrease to this during training
                     min_count=1  # ignores words with frequency lower than min_count
                     )
 
