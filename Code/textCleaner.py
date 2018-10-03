@@ -44,12 +44,7 @@ def cleanUp(doc):
         output = output + nltk.stem.WordNetLemmatizer().lemmatize(w, 'v') + " "  # lemmatize verbs
 
     #TODO find bigrams etc
-    # Filter out whitespace and symbols with regular expressions
-    tokenizer = RegexpTokenizer(r'\w+')
-    output = tokenizer.tokenize(output)
-
-    #Getting tags for every word
-    tagged = nltk.pos_tag(output)
+    removeLinebreakTags(data)
 
     return output
 
@@ -57,8 +52,7 @@ def cleanUp(doc):
 def removeLinebreakTags(doc):
     words = ""
     for word in doc:
-        word = re.sub('\\n', "", word)
-        words += " " + word #remove linebreak tags
+        words += " " + re.sub('\\n', "", word) #remove linebreak tags
     return words
 
 #print(cleanUp(data))
