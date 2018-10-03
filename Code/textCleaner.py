@@ -5,7 +5,7 @@ import string
 from nltk.stem.porter import PorterStemmer
 from nltk.tokenize import RegexpTokenizer, word_tokenize
 from bs4 import BeautifulSoup
-
+import re
 
 
 nltk.download('punkt')
@@ -53,13 +53,12 @@ def cleanUp(doc):
 
     return output
 
+#Removes linebreak tags and returns a single string.
 def removeLinebreakTags(doc):
-
     words = ""
     for word in doc:
-        if word != "\n": #find linebreak tag
-            words += " " + word #ignore linebreak tag
-
+        word = re.sub('\\n', "", word)
+        words += " " + word #remove linebreak tags
     return words
 
 #print(cleanUp(data))
