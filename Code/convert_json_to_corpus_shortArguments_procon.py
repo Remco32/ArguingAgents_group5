@@ -25,11 +25,13 @@ for subdir, dirs, files in os.walk(input_path):
                 output = open(new_output_path + str(i) + ".txt", 'w')
                 # output.write("pro,")
                 output.write(textCleaner.cleanUp(x['Pro argument'][0]))
-                # output.write('\n')
+                output.write('\n')
+                output.write(textCleaner.cleanUp(x['Pro argument text'][0:]))
         
             elif 'Con argument' in x:
                 output = open(new_output_path  + str(i) + ".txt", 'w')
                 # output.write("con,")
                 output.write(textCleaner.cleanUp(x['Con argument'][0]))
-                # output.write('\n')
-            i += 1
+                output.write('\n')
+                output.write(textCleaner.cleanUp(x['Con argument text'][0:]))
+            i += 1 #Iterator for filename

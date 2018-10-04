@@ -7,7 +7,7 @@ class QuotesSpider(scrapy.Spider):
     name = "arguments_procon_org"
     start_urls = [
         #'https://medicalmarijuana.procon.org/view.answers.php?questionID=001325',
-        #'https://deathpenalty.procon.org/view.answers.php?questionID=001324' #broken,
+        #'https://deathpenalty.procon.org/view.answers.php?questionID=001324' #broken
         #'https://euthanasia.procon.org/view.answers.php?questionID=001320',
         'https://immigration.procon.org/view.answers.php?questionID=001362'
     ]
