@@ -59,6 +59,6 @@ def removeLinebreakTags(doc):
 #print(cleanUp(data))
 #print(removeLinebreakTags(data))
 
-file = open("medicalMarijuana.json", "r") #open test file
-content = file.read() #read content
+#file = open("medicalMarijuana.json", "r") #open test file
+#content = file.read() #read content
 

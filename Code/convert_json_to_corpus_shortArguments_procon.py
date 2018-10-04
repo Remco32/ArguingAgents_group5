@@ -1,6 +1,8 @@
 import os
 import json
 import re
+import textCleaner
+
 
 input_path = "../Crawler/Crawled/ProconOrg/shortArguments/"
 output_path = "../Crawler/Corpus/ProconOrg/shortArguments/"
@@ -22,12 +24,12 @@ for subdir, dirs, files in os.walk(input_path):
             if 'Pro argument' in x:
                 output = open(new_output_path + str(i) + ".txt", 'w')
                 # output.write("pro,")
-                output.write(x['Pro argument'][0])
+                output.write(textCleaner.cleanUp(x['Pro argument'][0]))
                 # output.write('\n')
         
             elif 'Con argument' in x:
                 output = open(new_output_path  + str(i) + ".txt", 'w')
                 # output.write("con,")
-                output.write(x['Con argument'][0])
+                output.write(textCleaner.cleanUp(x['Con argument'][0]))
                 # output.write('\n')
             i += 1
