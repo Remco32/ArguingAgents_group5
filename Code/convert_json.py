@@ -3,7 +3,7 @@ import json
 
 
 input_file = "../Crawler/Crawled/ProconOrg/shortArguments/animalTesting.json"
-output_file = "../Crawler/Crawled_csv/ProconOrg/shortArguments/animaltesting.csv"
+output_file = "../Crawler/Crawled_csv/ProconOrg/shortArguments/animalTesting.csv"
 
 with open(input_file) as f:
     data = json.load(f)
