@@ -7,6 +7,7 @@
 import nltk
 import math
 import operator
+import os
 
 from nltk.corpus.reader.plaintext import PlaintextCorpusReader
 from collections import Counter
@@ -20,6 +21,9 @@ def TFIDFRep(corpus, doc):
     for term in term_counts:
         value = TFIDF(term, doc, corpus, term_counts)
         rep[term] = value
+    # sort the found TF.IDF values
+    rep = rankValues(rep)
+    print(rep)
     return rep
 
 # Calculate the TF.IDF value
@@ -31,7 +35,7 @@ def TFIDF(term, doc, docs, term_counts):
 def TF(term, words, term_counts):
     total_no_terms = len(words)
     count = term_counts[term]
-    return count / total_no_terms
+    return math.log(count / total_no_terms)
 
 # Calculate the IDF
 def IDF(term, docs):
@@ -42,17 +46,26 @@ def IDF(term, docs):
 def DF(term, docs):
     docs_counts = 0
     for doc in docs.fileids():
-        if term in doc:
+        if term in docs.words(doc):
             docs_counts = docs_counts + 1
     return docs_counts
 
 # Sort the TF.IDF values from top to bottom
 def rankValues(values):
-    return sorted(values.items(), key=operator.itemgetter(1), reverse=True)
+    return sorted(values.items(), key=operator.itemgetter(1))
 
 # Create corpus from text files
 def corpusize(filepath):
     if filepath[-1] != '/':
         filepath = filepath + '/'
 
+    os.chdir('..')
     return PlaintextCorpusReader(filepath, '.*')
+
+def test(filepath):
+    corpus = corpusize(filepath)
+    values = dict()
+    for doc in corpus.fileids():
+        values[doc] = TFIDFRep(corpus, doc)
+
+test('Crawler/Corpus/ProconOrg/shortArguments/animalTesting')
