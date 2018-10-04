@@ -4,6 +4,7 @@ import string
 from nltk.tokenize import word_tokenize
 import re
 from nltk.collocations import TrigramAssocMeasures, TrigramCollocationFinder
+#from JSONToCSV import JSONToCSV
 
 nltk.download('punkt')
 nltk.download('stopwords')
@@ -11,6 +12,7 @@ nltk.download('wordnet')
 nltk.download('averaged_perceptron_tagger')
 
 data = "Medical marijuana shows considerable promise in reducing chronic pain from a widespread number of causes, including cancer, spinal cord injury and disease, severe spasms, post-traumatic stress disorder, nausea, glaucoma, Parkinson's and other debilitating ailments. The drug could prove useful in other applications if patients are allowed to use it.", "\n", "\nIt is nonsensical to oppose the use of medical marijuana in the midst of what amounts to a nationwide epidemic of opioid addiction. Why not provide patients with a safer option? And why continue to allow doctors to prescribe powerful, addictive opiates but deny them the authority to legally prescribe medical marijuana?", "\n", "\nIt is illogical and potentially heartless to deny patients with serious health problems a drug that could help mediate pain and discomfort with few, if any, side effects."
+
 
 
 def cleanUp(doc):
@@ -54,5 +56,9 @@ def removeLinebreakTags(doc):
         words += re.sub('\\n', "", word) #remove linebreak tags
     return words
 
-print(cleanUp(data))
+#print(cleanUp(data))
 #print(removeLinebreakTags(data))
+
+file = open("medicalMarijuana.json", "r") #open test file
+content = file.read() #read content
+
