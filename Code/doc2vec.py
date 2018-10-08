@@ -28,6 +28,7 @@ epochs = 500
 vec_size = 20
 alpha = 0.05
 
+
 def train(vec_size, alpha, epochs, tagged_data):
     model = Doc2Vec(vector_size=vec_size,  # size of the feature vector
                     alpha=alpha,  # initial learning rate
@@ -47,7 +48,7 @@ def train(vec_size, alpha, epochs, tagged_data):
 
 train(vec_size, alpha, epochs, tagged_data)
 
-model= Doc2Vec.load("d2v.model")
+model = Doc2Vec.load("d2v.model")
 test_data = word_tokenize("Animal testing has contributed to many life-saving cures and treatments".lower())
 test_vector = model.infer_vector(test_data)
 
