@@ -1,6 +1,7 @@
 from gensim.models.doc2vec import Doc2Vec, TaggedDocument
 from nltk.tokenize import word_tokenize
 from textCleaner import cleanUp
+import os
 
 # data = ["Medical marijuana shows considerable promise in reducing chronic pain",
 #         "As a physician, I have constantly searched for treatment options for my patients' chronic pain.",
@@ -10,19 +11,21 @@ from textCleaner import cleanUp
 #         ]
 
 data = []
-input_file = "./Crawler/Crawled_csv/ProconOrg/shortArguments/animaltesting.csv"
-for line in open(input_file, 'r'):
-    data.append(line.split(",")[1].rstrip())
+# input_file = "./Crawler/Crawled_csv/ProconOrg/longArguments/socialNetworking.csv"
+input_folder = "./Crawler/Crawled_csv/ProconOrg/longArguments/"
+
+for file in os.listdir(input_folder):
+    for line in open(input_folder + file, 'r'):
+        data.append(line.split(",")[1].rstrip())
 
 cleaned_data = []
 for argument in data:
     clean_argument = cleanUp(argument)
     cleaned_data.append(clean_argument)
 
-data = cleaned_data
 
 # TODO: filter out stop words using nltk
-tagged_data = [TaggedDocument(words=word_tokenize(_d.lower()), tags=[str(i)]) for i, _d in enumerate(data)]
+tagged_data = [TaggedDocument(words=word_tokenize(_d.lower()), tags=[str(i)]) for i, _d in enumerate(cleaned_data)]
 
 epochs = 500
 vec_size = 20
@@ -49,7 +52,7 @@ def train(vec_size, alpha, epochs, tagged_data):
 train(vec_size, alpha, epochs, tagged_data)
 
 model = Doc2Vec.load("d2v.model")
-test_data = word_tokenize("Animal testing has contributed to many life-saving cures and treatments".lower())
+test_data = word_tokenize("Marijuana can help relieve pain patients experience after a medical operation".lower())
 test_vector = model.infer_vector(test_data)
 
 similar = model.docvecs.most_similar([test_vector])
