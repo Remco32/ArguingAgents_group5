@@ -15,7 +15,7 @@ from collections import Counter
 # Create a representation of a given corpus for a single document
 def TFIDFRep(corpus, doc):
     term_counts = Counter(corpus.words(doc))
-    print('TF.DIF values of words in ' + doc)
+    #print('TF.DIF values of words in ' + doc)
     rep = dict()
     #Calculate TFIDF values
     for term in term_counts:
@@ -23,7 +23,7 @@ def TFIDFRep(corpus, doc):
         rep[term] = value
     # sort the found TF.IDF values
     rep = rankValues(rep)
-    print(rep)
+    #print(rep)
     return rep
 
 # Calculate the TF.IDF value
@@ -67,5 +67,23 @@ def test(filepath):
     values = dict()
     for doc in corpus.fileids():
         values[doc] = TFIDFRep(corpus, doc)
+    proDoc = open("Resources/Opinion Lexicon/positive-words-trimmed.txt")
+    conDoc = open("Resources/Opinion Lexicon/negative-words-trimmed.txt")
+    for doc in values.keys():
+        docValues = values[doc]
+        proVal = 0
+        conVal = 0
+        for tuple in docValues:
+            word = tuple[0]
+            if any(word in line for line in proDoc):
+                print("Positive match found!")
+                proVal += tuple[1]
+            elif any(word in line for line in conDoc):
+                print("Negative match found!")
+                conVal += tuple[1]
+
+        #print("Values for ", doc)
+        #print("Pro: ", proVal, " Con: ", conVal)
+
 
 test('Crawler/Corpus/ProconOrg/shortArguments/animalTesting')
