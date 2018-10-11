@@ -67,23 +67,32 @@ def test(filepath):
     values = dict()
     for doc in corpus.fileids():
         values[doc] = TFIDFRep(corpus, doc)
-    proDoc = open("Resources/Opinion Lexicon/positive-words-trimmed.txt")
-    conDoc = open("Resources/Opinion Lexicon/negative-words-trimmed.txt")
+    os.chdir('Code/')
+    proconcorpus = corpusize("Resources/Opinion Lexicon/Trimmed/")
+
+    proDocs = list()
+    conDocs = list()
+    nulDocs = list()
+
     for doc in values.keys():
         docValues = values[doc]
         proVal = 0
         conVal = 0
         for tuple in docValues:
             word = tuple[0]
-            if any(word in line for line in proDoc):
-                print("Positive match found!")
+            if word in proconcorpus.words("positive-words-trimmed.txt"):
                 proVal += tuple[1]
-            elif any(word in line for line in conDoc):
-                print("Negative match found!")
+            elif word in proconcorpus.words("negative-words-trimmed.txt"):
                 conVal += tuple[1]
+        if proVal < conVal:
+            proDocs.append(doc)
+        elif proVal > conVal:
+            conDocs.append(doc)
+        else:
+            nulDocs.append(doc)
 
-        #print("Values for ", doc)
-        #print("Pro: ", proVal, " Con: ", conVal)
-
+    print("Pro arguments:", proDocs)
+    print("Con arguments:", conDocs)
+    print("Unable to determine:", nulDocs)
 
 test('Crawler/Corpus/ProconOrg/shortArguments/animalTesting')
