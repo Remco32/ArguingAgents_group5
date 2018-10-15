@@ -1,4 +1,7 @@
 from enum import Enum
+from gensim.models.doc2vec import Doc2Vec
+
+MODEL_DIR = "../D2V_models/"
 
 
 class Argument(Enum):
@@ -19,9 +22,15 @@ class Topic:
 
     def init_model(self):
         # load doc2vec model from disk, or create new model from data
-        pass
+        try:
+            self._model = Doc2Vec.load(MODEL_DIR + self._name + ".model")
+        except FileNotFoundError:
+            # No model yet, create new model
+            self._model = Doc2Vec()  # TODO: initialise and train new model
 
     def get_counterargument(self, argument, argument_type):
         pass
 
 
+if __name__ == "__main__":
+    test_topic = Topic("asdfdasf")
