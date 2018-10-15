@@ -9,7 +9,8 @@ class QuotesSpider(scrapy.Spider):
         #'https://medicalmarijuana.procon.org/view.answers.php?questionID=001325',
         #'https://deathpenalty.procon.org/view.answers.php?questionID=001324' #broken
         #'https://euthanasia.procon.org/view.answers.php?questionID=001320',
-        'https://immigration.procon.org/view.answers.php?questionID=001362'
+        #'https://immigration.procon.org/view.answers.php?questionID=001362'
+        'https://prostitution.procon.org/view.answers.php?questionID=001315'
     ]
 
     def parse(self, response):
