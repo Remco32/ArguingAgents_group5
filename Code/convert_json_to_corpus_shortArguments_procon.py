@@ -8,6 +8,8 @@ input_path = "../Crawler/Crawled/ProconOrg/shortArguments/"
 output_path = "../Crawler/Corpus/ProconOrg/shortArguments/"
 
 for subdir, dirs, files in os.walk(input_path):
+    print (subdir)
+    print (dirs)
     #Go though all the files in the path
     for file in files:
         input_file = os.path.join(subdir, file)
@@ -20,18 +22,20 @@ for subdir, dirs, files in os.walk(input_path):
             data = json.load(f)
         
         i = 0  # initiate iterator
+        j = 0
         for x in data[1:]:
             if 'Pro argument' in x:
-                output = open(new_output_path + str(i) + ".txt", 'w')
+                output = open(new_output_path + "pro" + str(i) + ".txt", 'w')
                 # output.write("pro,")
                 output.write(textCleaner.cleanUp(x['Pro argument'][0]))
                 output.write('\n')
                 output.write(textCleaner.cleanUp(x['Pro argument text'][0:]))
-        
+                i += 1  # Iterator for filename
+
             elif 'Con argument' in x:
-                output = open(new_output_path  + str(i) + ".txt", 'w')
+                output = open(new_output_path  + "con" + str(j) + ".txt", 'w')
                 # output.write("con,")
                 output.write(textCleaner.cleanUp(x['Con argument'][0]))
                 output.write('\n')
                 output.write(textCleaner.cleanUp(x['Con argument text'][0:]))
-            i += 1 #Iterator for filename
+                j += 1
