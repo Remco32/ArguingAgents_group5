@@ -1,5 +1,6 @@
 ##Run using Scrapy:
 #scrapy runspider filename.py -o output.json
+#i.e. scrapy runspider crawler_procon_org_noQuoteboxes.py -o Crawled\ProconOrg\shortArguments\abortion.json
 
 #For some reason arguments get mixed in the JSON file when crawling too many (>2?) pages. Simply crawling one page at a time is a workaround.
 
@@ -13,7 +14,19 @@ class QuotesSpider(scrapy.Spider):
         #'https://marijuana.procon.org/',
         #'https://school-uniforms.procon.org/',
         #'https://drinkingage.procon.org/',
-        'https://socialnetworking.procon.org/'
+        #'https://socialnetworking.procon.org/',
+        #'https://vaccines.procon.org/',
+        #'https://abortion.procon.org/',
+        #'https://vegetarian.procon.org/',
+        #'https://healthcare.procon.org/'
+        #'https://school-uniforms.procon.org/',
+        #'https://standardizedtests.procon.org/',
+        #'https://tablets-textbooks.procon.org/'
+        #'https://concealedguns.procon.org/'
+        #'https://drones.procon.org/'
+        'https://gaymarriage.procon.org/'
+
+
     ]
 
     def parse(self, response):
