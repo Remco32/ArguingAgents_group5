@@ -9,8 +9,8 @@ class QuotesSpider(scrapy.Spider):
     name = "arguments_debatabase"
     start_urls = [
         #'https://idebate.org/debatabase/culture-media/should-airbrushing-womens-bodies-be-banned'
-        'https://idebate.org/debatabase/education/house-believes-single-sex-schools-are-good-education'
-        #'https://idebate.org/debatabase/environment-animals-philosophy-ethics-science-science-general/house-would-ban-animal'
+        #'https://idebate.org/debatabase/education/house-believes-single-sex-schools-are-good-education'
+        'https://idebate.org/debatabase/environment-animals-philosophy-ethics-science-science-general/house-would-ban-animal'
 
     ]
 
