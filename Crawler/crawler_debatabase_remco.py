@@ -24,16 +24,15 @@ class QuotesSpider(scrapy.Spider):
         for claim in response.css('.entity.entity-field-collection-item.field-collection-item-field-point-for.clearfix'):
             yield {
                 'Pro argument': claim.css('.field-items > .field-item.even::text').extract_first(),
-                'Point': claim.css('.field.field-name-field-point-point-for.field-type-text-long.field-label-above > .field-items > .field-item.even > p:nth-child(1)::text').extract(),
-                'Counterpoint': claim.css('.field.field-name-field-counterpoint-point-for.field-type-text-long.field-label-above > .field-items > .field-item.even > p:nth-child(1)::text').extract(),
-
+                'Point': claim.css('.field.field-name-field-point-point-for.field-type-text-long.field-label-above > .field-items > .field-item.even ::text').extract(), #TODO remove citations
+                'Counterpoint': claim.css('.field.field-name-field-counterpoint-point-for.field-type-text-long.field-label-above > .field-items > .field-item.even ::text').extract(),
             }
 
-        for claimCounter in response.css('.field.field-name-field-title.field-type-text.field-label-above'):
+        for claimCounter in response.css('.entity.entity-field-collection-item.field-collection-item-field-point-against.clearfix'):
             yield {
                 'Con argument': claimCounter.css('.field-items > .field-item.even::text').extract_first(),
-                'Point': claim.css('.field.field-name-field-point-point-for.field-type-text-long.field-label-above > .field-items > .field-item.even > p:nth-child(1)::text').extract(),
-                'Counterpoint': claim.css('.field.field-name-field-counterpoint-point-for.field-type-text-long.field-label-above > .field-items > .field-item.even > :not(a)>  > p:nth-child(1)::text').extract(), #TODO point and counterpoint repeat for con arguments
+                'Point': claimCounter.css('.field.field-name-field-point.field-type-text-long.field-label-above > .field-items > .field-item.even ::text').extract(),
+                'Counterpoint': claimCounter.css('.field.field-name-field-counterpoint.field-type-text-long.field-label-above > .field-items > .field-item.even ::text').extract(),
             }
 
 
