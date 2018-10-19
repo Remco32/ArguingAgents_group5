@@ -8,6 +8,7 @@ import nltk
 import math
 import operator
 import os
+import pandas as pd
 
 from nltk.corpus.reader.plaintext import PlaintextCorpusReader
 from collections import Counter
@@ -62,6 +63,19 @@ def corpusize(filepath):
     os.chdir('..')
     return PlaintextCorpusReader(filepath, '.*')
 
+# Create a confusion matrix for this corpus
+def confMatrix(predArray, corpus):
+    actuArray = list()
+
+    for doc in corpus.fileids():
+        if "pro" in doc:
+            actuArray.append("pro")
+        elif "con" in doc:
+            actuArray.append("con")
+
+    df_confusion = pd.crosstab(pd.Series(actuArray, name="Actual"), pd.Series(predArray, name="Predicted"))
+    print(df_confusion)
+
 def test(filepath):
     corpus = corpusize(filepath)
     values = dict()
@@ -73,6 +87,8 @@ def test(filepath):
     proDocs = list()
     conDocs = list()
     nulDocs = list()
+
+    predArray = list()
 
     for doc in values.keys():
         docValues = values[doc]
@@ -86,13 +102,18 @@ def test(filepath):
                 conVal += tuple[1]
         if proVal < conVal:
             proDocs.append(doc)
+            predArray.append("pro")
         elif proVal > conVal:
             conDocs.append(doc)
+            predArray.append("con")
         else:
             nulDocs.append(doc)
+            predArray.append("???")
 
     print("Pro arguments:", proDocs)
     print("Con arguments:", conDocs)
     print("Unable to determine:", nulDocs)
 
-test('Crawler/Corpus/ProconOrg/shortArguments/animalTesting')
+    confMatrix(predArray, corpus)
+
+test('Crawler/Corpus/ProconOrg/longArguments/medicalMarijuana')
