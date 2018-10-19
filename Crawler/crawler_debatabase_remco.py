@@ -1,5 +1,6 @@
 ##Run using Scrapy:
 #scrapy runspider filename.py -o output.json
+#i.e. scrapy runspider crawler_debatabase_remco.py -o Crawled\Debatabase\abortion.json
 
 import scrapy
 
@@ -7,7 +8,10 @@ import scrapy
 class QuotesSpider(scrapy.Spider):
     name = "arguments_debatabase"
     start_urls = [
-        'https://idebate.org/debatabase/culture-media/should-airbrushing-womens-bodies-be-banned'
+        #'https://idebate.org/debatabase/culture-media/should-airbrushing-womens-bodies-be-banned'
+        #'https://idebate.org/debatabase/education/house-believes-single-sex-schools-are-good-education'
+        'https://idebate.org/debatabase/environment-animals-philosophy-ethics-science-science-general/house-would-ban-animal'
+
     ]
 
     def parse(self, response):
@@ -20,16 +24,15 @@ class QuotesSpider(scrapy.Spider):
         for claim in response.css('.entity.entity-field-collection-item.field-collection-item-field-point-for.clearfix'):
             yield {
                 'Pro argument': claim.css('.field-items > .field-item.even::text').extract_first(),
-                'Point': claim.css('.field.field-name-field-point-point-for.field-type-text-long.field-label-above > .field-items > .field-item.even > p::text').extract(), #TODO remove sources from mined text
-                'Counterpoint': claim.css('.field.field-name-field-counterpoint-point-for.field-type-text-long.field-label-above > .field-items > .field-item.even > p::text').extract(),
-
+                'Point': claim.css('.field.field-name-field-point-point-for.field-type-text-long.field-label-above > .field-items > .field-item.even ::text').extract(), #TODO remove citations
+                'Counterpoint': claim.css('.field.field-name-field-counterpoint-point-for.field-type-text-long.field-label-above > .field-items > .field-item.even ::text').extract(),
             }
 
-        for claimCounter in response.css('.field.field-name-field-title.field-type-text.field-label-above'):
+        for claimCounter in response.css('.entity.entity-field-collection-item.field-collection-item-field-point-against.clearfix'):
             yield {
                 'Con argument': claimCounter.css('.field-items > .field-item.even::text').extract_first(),
-                #'Point': claim.css('.field.field-name-field-point-point-for.field-type-text-long.field-label-above > .field-items > .field-item.even > p::text').extract(), #TODO remove sources from mined text
-                #'Counterpoint': claim.css('.field.field-name-field-counterpoint-point-for.field-type-text-long.field-label-above > .field-items > .field-item.even > p::text').extract(),
+                'Point': claimCounter.css('.field.field-name-field-point.field-type-text-long.field-label-above > .field-items > .field-item.even ::text').extract(),
+                'Counterpoint': claimCounter.css('.field.field-name-field-counterpoint.field-type-text-long.field-label-above > .field-items > .field-item.even ::text').extract(),
             }
 
 
