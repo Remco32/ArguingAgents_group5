@@ -4,7 +4,7 @@
 
 import scrapy
 
-#TODO order of items gets messed up. Probably has to do with the for-loops.
+#TODO order of items gets messed up. Probably has to do with the for-loops. Parser doesn't mind about order though.
 class QuotesSpider(scrapy.Spider):
     name = "arguments_debatabase"
     start_urls = [

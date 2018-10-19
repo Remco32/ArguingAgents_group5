@@ -11,20 +11,21 @@ nltk.download('stopwords')
 nltk.download('wordnet')
 nltk.download('averaged_perceptron_tagger')
 
-data = "Medical marijuana shows considerable promise in reducing chronic pain from a widespread number of causes, including cancer, spinal cord injury and disease, severe spasms, post-traumatic stress disorder, nausea, glaucoma, Parkinson's and other debilitating ailments. The drug could prove useful in other applications if patients are allowed to use it.", "\n", "\nIt is nonsensical to oppose the use of medical marijuana in the midst of what amounts to a nationwide epidemic of opioid addiction. Why not provide patients with a safer option? And why continue to allow doctors to prescribe powerful, addictive opiates but deny them the authority to legally prescribe medical marijuana?", "\n", "\nIt is illogical and potentially heartless to deny patients with serious health problems a drug that could help mediate pain and discomfort with few, if any, side effects."
+data = "The differences between us and other vertebrates are a matter of degree rather than kind.", "[1]", "\u00a0Not only do they closely resemble us anatomically and physiologically, but so too do they behave in ways which seem to convey meaning. They recoil from pain, appear to express fear of a tormentor, and appear to take pleasure in activities; a point clear to anyone who has observed the behaviour of a pet dog on hearing the word \u201cwalk\u201d. Our reasons for believing that our fellow humans are capable of experiencing feelings like ourselves can surely only be that they resemble us both in appearance and behaviour (we cannot read their minds). Thus any animal sharing our anatomical, physiological, and behavioural characteristics is surely likely to have feelings like us. If we accept as true for sake of argument, that all humans have a right not to be harmed, simply by virtue of existing as a being of moral worth, then we must ask what makes animals so different. If animals can feel what we feel, and suffer as we suffer, then to discriminate merely on the arbitrary difference of belonging to a different species, is\u00a0 analogous to discriminating on the basis of any other morally arbitrary characteristic, such as race or sex. If sexual and racial moral discrimination is wrong, then so too is specieism.", "[2]", "\n", "[1]", "\u00a0Clark, S., The Nature of the Beast: are animals moral?, (Oxford : Oxford University Press, 1982)", "\n", "[2]", "\u00a0Singer, P., \u201cAll Animals are Equal\u201d, in La Follette (ed.), Ethics in Practice, (Malden, Mass; Oxford : Blackwell Pub, 2007)", "\n"
 
 
 
 def cleanUp(doc):
     #window_size = 3 #Size of the collocation window
 
-
     words = ""
-    noLinebreakText = removeLinebreakTags(doc)
+    cleanerText = removeLinebreakTags(removeCitations(doc))
 
-    for word in noLinebreakText.split(" "):
+    for word in cleanerText.split(" "):
         words += " " + word
     translator = str.maketrans('', '', string.punctuation)
+
+
 
     words = words.translate(translator)  # remove punctuation
     tokens = word_tokenize(words)
@@ -56,9 +57,23 @@ def removeLinebreakTags(doc):
         words += re.sub('\\n', "", word) #remove linebreak tags
     return words
 
+#Removes citations for Debatabase output
+def removeCitations(doc):
+    words = ""
+    #CleanUp() takes care of cleaning the citation indicators (i.e. "[3]") from the text already.
+    #Look if [1] is in the text
+    if(doc.count("[1]") >= 2): #two occurrences, reference and citation
+        #look for the second occurrence of [1]
+        citationCounter = 0
+        for word in doc: #value of count is excluded, so range is [0, count-1]
+            words += word #add word to string
+            if word == "[1]":
+                citationCounter+=1
+            if(citationCounter>1):
+                break #stop adding words to the string: we reached the citation part
+    return words
+
+
+#print(removeCitations(data))
 #print(cleanUp(data))
 #print(removeLinebreakTags(data))
-
-#file = open("medicalMarijuana.json", "r") #open test file
-#content = file.read() #read content
-

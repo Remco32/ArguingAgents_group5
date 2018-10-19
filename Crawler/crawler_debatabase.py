@@ -1,3 +1,5 @@
+#Deprecated. Use crawler_debatabase_remco.py
+
 import requests
 from bs4 import BeautifulSoup
 
