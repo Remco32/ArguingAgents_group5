@@ -10,7 +10,14 @@ class QuotesSpider(scrapy.Spider):
     start_urls = [
         #'https://idebate.org/debatabase/culture-media/should-airbrushing-womens-bodies-be-banned'
         #'https://idebate.org/debatabase/education/house-believes-single-sex-schools-are-good-education'
-        'https://idebate.org/debatabase/environment-animals-philosophy-ethics-science-science-general/house-would-ban-animal'
+        #'https://idebate.org/debatabase/environment-animals-philosophy-ethics-science-science-general/house-would-ban-animal'
+        #'https://idebate.org/debatabase/law-crime-policing-punishment-philosophy-ethics-life/house-supports-death-penalty',
+        #'https://idebate.org/debatabase/culture-culture-general-media-modern-culture-television/house-believes-reality-television'
+        #'https://idebate.org/debatabase/education-university-government/house-believes-university-education-should-be-free'
+        #'https://idebate.org/debatabase/health-disease-healthcare-philosophy-ethics-life/house-believes-assisted-suicide-should'
+        #'https://idebate.org/debatabase/health-addiction-health-general-society/house-believes-cannabis-should-be-legalised'
+        #'https://idebate.org/debatabase/health-health-general-weight/house-would-ban-junk-food-schools'
+        'https://idebate.org/debatabase/society-gender-family/house-believes-homosexuals-should-be-able-adopt'
 
     ]
 
