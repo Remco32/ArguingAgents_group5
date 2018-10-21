@@ -71,6 +71,8 @@ def removeCitations(doc):
                 citationCounter+=1
             if(citationCounter>1):
                 break #stop adding words to the string: we reached the citation part
+    else:
+        words = doc
     return words
 
 
