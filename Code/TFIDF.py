@@ -12,6 +12,7 @@ import pandas as pd
 
 from nltk.corpus.reader.plaintext import PlaintextCorpusReader
 from collections import Counter
+from topic import Argument
 
 # Create a representation of a given corpus for a single document
 def TFIDFRep(corpus, doc):
@@ -115,5 +116,14 @@ def test(filepath):
     print("Unable to determine:", nulDocs)
 
     confMatrix(predArray, corpus)
+
+
+def classify_argument(argument):
+    # TODO: make this function
+    if True:
+        return Argument.PRO
+    else:
+        return Argument.CON
+
 
 test('Crawler/Corpus/ProconOrg/longArguments/medicalMarijuana')
