@@ -6,7 +6,6 @@
 
 import math
 import operator
-import os
 import pandas as pd
 from enum import Enum
 
@@ -67,7 +66,6 @@ def corpusize(filepath):
     if filepath[-1] != '/':
         filepath = filepath + '/'
 
-    os.chdir('..')
     return PlaintextCorpusReader(filepath, '.*')
 
 # Create a confusion matrix for this corpus
@@ -83,12 +81,18 @@ def confMatrix(predArray, corpus):
     df_confusion = pd.crosstab(pd.Series(actuArray, name="Actual"), pd.Series(predArray, name="Predicted"))
 
     # Compute accuracy
+    totalArgs = len(actuArray)
+    correctCon = df_confusion.iat[0, 0]
+    correctPro = df_confusion.iat[1, 1]
+    correctArgs = correctPro + correctCon
 
+    accuracy = (correctArgs / totalArgs) * 100
 
     print(df_confusion)
+    print("Accuracy: ", accuracy, "%")
 
 def test(filepath):
-    corpus = corpusize(filepath)
+    corpus = corpusize("../" + filepath)
     values = dict()
     for doc in corpus.fileids():
         values[doc] = TFIDFRep(corpus, doc)
@@ -173,4 +177,4 @@ def classify_argument(argument, test_topic):
         return Argument.CON
 
 if __name__ == "__main__":
-    test('Crawler/Corpus/ProconOrg/longArguments/medicalMarijuana')
+    test('Crawler/Corpus/Debatabase/airbrushing')
