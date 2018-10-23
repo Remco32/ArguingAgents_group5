@@ -3,8 +3,6 @@ import json
 import re
 import textCleaner
 
-#TODO Unfinished, don't use
-
 input_path = "../Crawler/Crawled/Debatabase/"
 output_path = "../Crawler/Corpus/Debatabase/"
 
