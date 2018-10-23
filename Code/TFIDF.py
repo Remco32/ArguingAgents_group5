@@ -4,7 +4,6 @@
 # We can later test these values against dictionaries with common "positive" and "negative" words to try and find whether
 # an argument is "pro" or "con".
 
-import nltk
 import math
 import operator
 import os
@@ -75,6 +74,10 @@ def confMatrix(predArray, corpus):
             actuArray.append("con")
 
     df_confusion = pd.crosstab(pd.Series(actuArray, name="Actual"), pd.Series(predArray, name="Predicted"))
+
+    # Compute accuracy
+
+
     print(df_confusion)
 
 def test(filepath):
@@ -82,8 +85,7 @@ def test(filepath):
     values = dict()
     for doc in corpus.fileids():
         values[doc] = TFIDFRep(corpus, doc)
-    os.chdir('Code/')
-    proconcorpus = corpusize("Resources/Opinion Lexicon/Trimmed/")
+    proconcorpus = corpusize("../Resources/Opinion Lexicon/Trimmed/")
 
     proDocs = list()
     conDocs = list()
@@ -118,9 +120,47 @@ def test(filepath):
     confMatrix(predArray, corpus)
 
 
-def classify_argument(argument):
-    # TODO: make this function
-    if True:
+def classify_argument(argument, test_topic):
+    topicpath = '../Crawler/Corpus/' + test_topic + '/'
+
+    # Create a file for the argument in the correct folder
+    argumentFile = open(topicpath + 'input.txt', "w+")
+    argumentFile.write(argument)
+    argumentFile.close()
+
+    corpus = corpusize(topicpath)
+    values = dict()
+    for doc in corpus.fileids():
+        values[doc] = TFIDFRep(corpus, doc)
+    proconcorpus = corpusize("../Resources/Opinion Lexicon/Trimmed/")
+
+    proDocs = list()
+    conDocs = list()
+    nulDocs = list()
+
+    predArray = list()
+
+    for doc in values.keys():
+        docValues = values[doc]
+        proVal = 0
+        conVal = 0
+        for tuple in docValues:
+            word = tuple[0]
+            if word in proconcorpus.words("positive-words-trimmed.txt"):
+                proVal += tuple[1]
+            elif word in proconcorpus.words("negative-words-trimmed.txt"):
+                conVal += tuple[1]
+        if proVal < conVal:
+            proDocs.append(doc)
+            predArray.append("pro")
+        elif proVal > conVal:
+            conDocs.append(doc)
+            predArray.append("con")
+        else:
+            nulDocs.append(doc)
+            predArray.append("???")
+
+    if values[argumentFile] in proDocs:
         return Argument.PRO
     else:
         return Argument.CON
