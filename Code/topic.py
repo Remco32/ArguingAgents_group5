@@ -6,8 +6,9 @@ from TFIDF import classify_argument, Argument
 
 INPUT_DIR = "../Crawler/Crawled_csv/ProconOrg/shortArguments/"
 MODEL_DIR = "../D2V_models/"
-FEATURE_VECTOR_SIZE = 20
+FEATURE_VECTOR_SIZE = 30
 ALPHA = 0.05
+EPOCHS = 40
 
 
 class Topic:
@@ -36,8 +37,10 @@ class Topic:
         for argument in data:
             clean_argument = cleanUp(argument[1])
             if argument[0] == 'pro':
+                self._data_pro.append(argument[1])
                 cleaned_data_pro.append(clean_argument)
             else:
+                self._data_con.append(argument[1])
                 cleaned_data_con.append(clean_argument)
 
         tagged_data_pro = [TaggedDocument(words=word_tokenize(_d.lower()), tags=[str(i)]) for i, _d in
@@ -45,8 +48,6 @@ class Topic:
         tagged_data_con = [TaggedDocument(words=word_tokenize(_d.lower()), tags=[str(i)]) for i, _d in
                        enumerate(cleaned_data_con)]
 
-        self._data_pro = cleaned_data_pro
-        self._data_con = cleaned_data_con
         self._tagged_data_pro = tagged_data_pro
         self._tagged_data_con = tagged_data_con
 
@@ -73,11 +74,11 @@ class Topic:
 
             self._model_pro.train(self._tagged_data_pro,
                         total_examples=self._model_pro.corpus_count,
-                        epochs=20
+                        epochs=EPOCHS
                         )
             self._model_con.train(self._tagged_data_con,
                         total_examples=self._model_con.corpus_count,
-                        epochs=20
+                        epochs=EPOCHS
                         )
 
             self._model_pro.save(MODEL_DIR + self._name + "_pro.model")
@@ -85,20 +86,24 @@ class Topic:
 
     def get_counterargument(self, argument, argument_type):
         test_data = word_tokenize(argument.lower())
-        if argument_type == Argument.PRO:
+        if argument_type == Argument.CON:
             test_vector = self._model_pro.infer_vector(test_data)
             similar = self._model_pro.docvecs.most_similar([test_vector])
             ca = self._data_pro[int(similar[0][0])]
+            print(self._model_con.docvecs.most_similar([test_vector]))
         else:
             test_vector = self._model_con.infer_vector(test_data)
             similar = self._model_con.docvecs.most_similar([test_vector])
             ca = self._data_con[int(similar[0][0])]
+            print(self._model_con.docvecs.most_similar([test_vector]))
 
         return ca
 
 
 if __name__ == "__main__":
-    test_topic = Topic("animalTesting")
-    argument = "animal testing is very bad"
-    argument_type = classify_argument(argument, test_topic._name)
+    test_topic = Topic("socialNetworking")
+    argument = "Being part of social media will decrease the quality of life of people and increase the risk of health problems"
+    # argument_type = classify_argument(argument, test_topic._name)
+    argument_type = Argument.CON
     counter_argument = test_topic.get_counterargument(argument, argument_type)
+    print(counter_argument)
