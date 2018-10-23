@@ -8,11 +8,18 @@ import math
 import operator
 import os
 import pandas as pd
+from enum import Enum
 
 from nltk.corpus.reader.plaintext import PlaintextCorpusReader
 from collections import Counter
-from topic import Argument
 
+
+class Argument(Enum):
+    PRO = 1
+    CON = 2
+
+
+#
 # Create a representation of a given corpus for a single document
 def TFIDFRep(corpus, doc):
     term_counts = Counter(corpus.words(doc))
@@ -165,5 +172,5 @@ def classify_argument(argument, test_topic):
     else:
         return Argument.CON
 
-
-test('Crawler/Corpus/ProconOrg/longArguments/medicalMarijuana')
+if __name__ == "__main__":
+    test('Crawler/Corpus/ProconOrg/longArguments/medicalMarijuana')

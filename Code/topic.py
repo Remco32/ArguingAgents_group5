@@ -2,7 +2,7 @@ from enum import Enum
 from textCleaner import cleanUp
 from gensim.models.doc2vec import Doc2Vec, TaggedDocument
 from nltk.tokenize import word_tokenize
-from TFIDF import classify_argument
+from TFIDF import classify_argument, Argument
 
 INPUT_DIR = "../Crawler/Crawled_csv/ProconOrg/shortArguments/"
 MODEL_DIR = "../D2V_models/"
@@ -10,20 +10,17 @@ FEATURE_VECTOR_SIZE = 20
 ALPHA = 0.05
 
 
-class Argument(Enum):
-    PRO = 1
-    CON = 2
-
-
 class Topic:
     def __init__(self, name):
         self._name = name
+
         self._data_pro = []  # mined arguments for this topic
         self._data_con = []  # mined arguments for this topic
         self._tagged_data_pro = []  # tokenized data for doc2vec
         self._tagged_data_con = []  # tokenized data for doc2vec
         self._model_pro = None  # doc2vec model for this topic
         self._model_con = None  # doc2vec model for this topic
+
         self.load_data()
         self.init_model()
 
@@ -87,11 +84,21 @@ class Topic:
             self._model_con.save(MODEL_DIR + self._name + "_con.model")
 
     def get_counterargument(self, argument, argument_type):
-        pass
+        test_data = word_tokenize(argument.lower())
+        if argument_type == Argument.PRO:
+            test_vector = self._model_pro.infer_vector(test_data)
+            similar = self._model_pro.docvecs.most_similar([test_vector])
+            ca = self._data_pro[int(similar[0][0])]
+        else:
+            test_vector = self._model_con.infer_vector(test_data)
+            similar = self._model_con.docvecs.most_similar([test_vector])
+            ca = self._data_con[int(similar[0][0])]
+
+        return ca
 
 
 if __name__ == "__main__":
     test_topic = Topic("animalTesting")
     argument = "animal testing is very bad"
-    argument_type = classify_argument(argument)
+    argument_type = classify_argument(argument, test_topic._name)
     counter_argument = test_topic.get_counterargument(argument, argument_type)
