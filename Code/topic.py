@@ -29,11 +29,10 @@ class Topic:
     def load_data(self):
         """Load arguments in corpus format for this topic, clean and tokenize them"""
 
-
-
         for file in os.listdir(INPUT_DIR + self._name):
             current_argument = []
-            for line in open(INPUT_DIR + self._name + "/" + file):
+            print(self._name, file)
+            for line in open(INPUT_DIR + self._name + "/" + file, "r", encoding="utf8"):
                 current_argument.append(line.rstrip())
             if file.startswith("pro"):
                 self._data_pro.append(current_argument[-1])
@@ -107,8 +106,14 @@ class Topic:
         return ca
 
 
+def train_all_topics():
+    """Create a trained model for every topic in the corpus"""
+    for topic in os.listdir(INPUT_DIR):
+        Topic(topic)
+
 if __name__ == "__main__":
-    test_topic = Topic("socialNetworking")
+    train_all_topics()
+    # test_topic = Topic("socialNetworking")
     # argument = "Being part of social media will decrease the quality of life of people and increase the risk of health problems"
     # argument_type = classify_argument(argument, test_topic._name)
     # argument_type = Argument.CON
