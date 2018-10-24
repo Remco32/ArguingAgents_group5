@@ -11,6 +11,7 @@ from enum import Enum
 
 from nltk.corpus.reader.plaintext import PlaintextCorpusReader
 from collections import Counter
+from textCleaner import cleanUp
 
 
 class Argument(Enum):
@@ -142,6 +143,7 @@ def classify_argument(argument, test_topic):
     corpus = corpusize(topicpath)
     values = dict()
     for doc in corpus.fileids():
+        cleanUp(doc)
         values[doc] = TFIDFRep(corpus, doc)
     proconcorpus = corpusize("../Resources/Opinion Lexicon/Trimmed/")
 
@@ -177,4 +179,4 @@ def classify_argument(argument, test_topic):
         return Argument.CON
 
 if __name__ == "__main__":
-    test('Crawler/Corpus/Debatabase/airbrushing')
+    test('Crawler/Corpus/realityTV')
