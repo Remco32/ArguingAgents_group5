@@ -3,8 +3,9 @@ from textCleaner import cleanUp
 from gensim.models.doc2vec import Doc2Vec, TaggedDocument
 from nltk.tokenize import word_tokenize
 from TFIDF import classify_argument, Argument
+import os
 
-INPUT_DIR = "../Crawler/Crawled_csv/ProconOrg/shortArguments/"
+INPUT_DIR = "../Crawler/Corpus/"
 MODEL_DIR = "../D2V_models/"
 FEATURE_VECTOR_SIZE = 30
 ALPHA = 0.05
@@ -26,22 +27,28 @@ class Topic:
         self.init_model()
 
     def load_data(self):
-        """Load arguments in csv format for this topic, clean and tokenize them"""
-        data = []
-        for line in open(INPUT_DIR + self._name + ".csv", 'r'):
-            data.append(line.rstrip().split(","))
+        """Load arguments in corpus format for this topic, clean and tokenize them"""
+
+
+
+        for file in os.listdir(INPUT_DIR + self._name):
+            current_argument = []
+            for line in open(INPUT_DIR + self._name + "/" + file):
+                current_argument.append(line.rstrip())
+            if file.startswith("pro"):
+                self._data_pro.append(current_argument[-1])
+            else:
+                self._data_con.append(current_argument[-1])
 
         cleaned_data_pro = []
         cleaned_data_con = []
 
-        for argument in data:
-            clean_argument = cleanUp(argument[1])
-            if argument[0] == 'pro':
-                self._data_pro.append(argument[1])
-                cleaned_data_pro.append(clean_argument)
-            else:
-                self._data_con.append(argument[1])
-                cleaned_data_con.append(clean_argument)
+        for argument in self._data_pro:
+            clean_argument = cleanUp(argument)
+            cleaned_data_pro.append(clean_argument)
+        for argument in self._data_con:
+            clean_argument = cleanUp(argument)
+            cleaned_data_con.append(clean_argument)
 
         tagged_data_pro = [TaggedDocument(words=word_tokenize(_d.lower()), tags=[str(i)]) for i, _d in
                        enumerate(cleaned_data_pro)]
@@ -102,8 +109,8 @@ class Topic:
 
 if __name__ == "__main__":
     test_topic = Topic("socialNetworking")
-    argument = "Being part of social media will decrease the quality of life of people and increase the risk of health problems"
+    # argument = "Being part of social media will decrease the quality of life of people and increase the risk of health problems"
     # argument_type = classify_argument(argument, test_topic._name)
-    argument_type = Argument.CON
-    counter_argument = test_topic.get_counterargument(argument, argument_type)
-    print(counter_argument)
+    # argument_type = Argument.CON
+    # counter_argument = test_topic.get_counterargument(argument, argument_type)
+    # print(counter_argument)
