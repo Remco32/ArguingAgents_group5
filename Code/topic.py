@@ -111,6 +111,9 @@ def train_all_topics():
         Topic(topic)
 
 if __name__ == "__main__":
+    #Check for directory
+    if not os.path.exists(MODEL_DIR):
+        os.makedirs(MODEL_DIR)
     # train_all_topics()
     test_topic = Topic("socialNetworking")
     argument = "Being part of social media will decrease the quality of life of people and increase the risk of health problems"
