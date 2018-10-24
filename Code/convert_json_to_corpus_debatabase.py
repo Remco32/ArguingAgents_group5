@@ -6,6 +6,14 @@ import textCleaner
 input_path = "../Crawler/Crawled/Debatabase/"
 output_path = "../Crawler/Corpus/Debatabase/"
 
+#filthy hack
+def numberingFix(iterator):
+    #filthy hack
+    numbering = iterator
+    if numbering < 10:
+        numbering = '0' + str(numbering)
+    return str(numbering)
+
 for subdir, dirs, files in os.walk(input_path):
     print (subdir)
     print (dirs)
@@ -24,7 +32,8 @@ for subdir, dirs, files in os.walk(input_path):
         j = 0  # iterator cons
         for x in data[1:]:
             if 'Pro argument' in x:
-                output = open(new_output_path + "pro" + str(i) + ".txt", 'w')
+
+                output = open(new_output_path + "pro" + numberingFix(i) + ".txt", 'w')
                 proArg = textCleaner.cleanUp(x['Pro argument'][0:])
                 output.write(proArg)
                 output.write('\n')
@@ -32,14 +41,16 @@ for subdir, dirs, files in os.walk(input_path):
                 i += 1  # Iterator for filename
 
                 #Counter point to pro argument
-                output = open(new_output_path + "con" + str(j) + ".txt", 'w')
+                output = open(new_output_path + "con" + numberingFix(j) + ".txt", 'w')
                 output.write(proArg)
                 output.write('\n')
                 output.write(textCleaner.cleanUp(x['Counterpoint'][0:]))
                 j += 1
 
+
+
             elif 'Con argument' in x:
-                output = open(new_output_path  + "con" + str(j) + ".txt", 'w')
+                output = open(new_output_path  + "con" + numberingFix(j) + ".txt", 'w')
                 conArg = textCleaner.cleanUp(x['Con argument'][0:])
                 output.write(conArg)
                 output.write('\n')
@@ -47,8 +58,9 @@ for subdir, dirs, files in os.walk(input_path):
                 j += 1
 
                 #Counter point con argument
-                output = open(new_output_path  + "pro" + str(i) + ".txt", 'w')
+                output = open(new_output_path  + "pro" + numberingFix(i) + ".txt", 'w')
                 output.write(conArg)
                 output.write('\n')
                 output.write(textCleaner.cleanUp(x['Counterpoint'][0:]))
                 i += 1
+

@@ -1,0 +1,7 @@
+import convert_json_to_corpus_shortArguments_procon
+import convert_json_to_corpus_longArguments_procon
+import convert_json_to_corpus_debatabase
+
+convert_json_to_corpus_shortArguments_procon()
+convert_json_to_corpus_longArguments_procon()
+convert_json_to_corpus_debatabase()

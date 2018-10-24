@@ -7,6 +7,14 @@ import textCleaner
 input_path = "../Crawler/Crawled/ProconOrg/shortArguments/"
 output_path = "../Crawler/Corpus/ProconOrg/shortArguments/"
 
+#filthy hack
+def numberingFix(iterator):
+    #filthy hack
+    numbering = iterator
+    if numbering < 10:
+        numbering = '0' + str(numbering)
+    return str(numbering)
+
 for subdir, dirs, files in os.walk(input_path):
     print (subdir)
     print (dirs)
@@ -25,7 +33,7 @@ for subdir, dirs, files in os.walk(input_path):
         j = 0
         for x in data[1:]:
             if 'Pro argument' in x:
-                output = open(new_output_path + "pro" + str(i) + ".txt", 'w')
+                output = open(new_output_path + "pro" + numberingFix(i) + ".txt", 'w')
                 # output.write("pro,")
                 output.write(textCleaner.cleanUp(x['Pro argument'][0]))
                 output.write('\n')
@@ -33,7 +41,7 @@ for subdir, dirs, files in os.walk(input_path):
                 i += 1  # Iterator for filename
 
             elif 'Con argument' in x:
-                output = open(new_output_path  + "con" + str(j) + ".txt", 'w')
+                output = open(new_output_path  + "con" + numberingFix(j) + ".txt", 'w')
                 # output.write("con,")
                 output.write(textCleaner.cleanUp(x['Con argument'][0]))
                 output.write('\n')
