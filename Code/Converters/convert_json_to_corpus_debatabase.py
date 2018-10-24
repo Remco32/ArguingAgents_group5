@@ -14,6 +14,8 @@ def numberingFix(iterator):
         numbering = '0' + str(numbering)
     return str(numbering)
 
+
+
 for subdir, dirs, files in os.walk(input_path):
     print (subdir)
     print (dirs)
@@ -33,34 +35,34 @@ for subdir, dirs, files in os.walk(input_path):
         for x in data[1:]:
             if 'Pro argument' in x:
 
-                output = open(new_output_path + "pro" + numberingFix(i) + ".txt", 'w')
-                proArg = textCleaner.cleanUp(x['Pro argument'][0:])
+                output = open(new_output_path + "pro" + numberingFix(i) + ".txt", 'w', encoding="utf-8")
+                proArg = textCleaner.removeJunk(x['Pro argument'][0:])
                 output.write(proArg)
                 output.write('\n')
-                output.write(textCleaner.cleanUp(x['Point'][0:]))
+                output.write(textCleaner.removeJunk(x['Point'][0:]))
                 i += 1  # Iterator for filename
 
                 #Counter point to pro argument
-                output = open(new_output_path + "con" + numberingFix(j) + ".txt", 'w')
+                output = open(new_output_path + "con" + numberingFix(j) + ".txt", 'w', encoding="utf-8")
                 output.write(proArg)
                 output.write('\n')
-                output.write(textCleaner.cleanUp(x['Counterpoint'][0:]))
+                output.write(textCleaner.removeJunk(x['Counterpoint'][0:]))
                 j += 1
 
 
 
             elif 'Con argument' in x:
-                output = open(new_output_path  + "con" + numberingFix(j) + ".txt", 'w')
-                conArg = textCleaner.cleanUp(x['Con argument'][0:])
+                output = open(new_output_path  + "con" + numberingFix(j) + ".txt", 'w', encoding="utf-8")
+                conArg = textCleaner.removeJunk(x['Con argument'][0:])
                 output.write(conArg)
                 output.write('\n')
-                output.write(textCleaner.cleanUp(x['Point'][0:]))
+                output.write(textCleaner.removeJunk(x['Point'][0:]))
                 j += 1
 
                 #Counter point con argument
-                output = open(new_output_path  + "pro" + numberingFix(i) + ".txt", 'w')
+                output = open(new_output_path  + "pro" + numberingFix(i) + ".txt", 'w', encoding="utf-8")
                 output.write(conArg)
                 output.write('\n')
-                output.write(textCleaner.cleanUp(x['Counterpoint'][0:]))
+                output.write(textCleaner.removeJunk(x['Counterpoint'][0:]))
                 i += 1
 

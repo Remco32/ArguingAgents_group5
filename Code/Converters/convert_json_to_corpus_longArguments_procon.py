@@ -32,15 +32,15 @@ for subdir, dirs, files in os.walk(input_path):
         j = 0
         for x in data[1:]:
             if 'Pro argument' in x:
-                output = open(new_output_path + "pro" + numberingFix(i) + ".txt", 'w')
+                output = open(new_output_path + "pro" + numberingFix(i) + ".txt", 'w', encoding="utf-8")
                 # output.write("pro,")
                 output.write(textCleaner.removeJunk(x['Pro argument'][0]))
-                #output.write('\n')
-                #output.write((x['Pro argument text'][0:]))
+                # output.write('\n')
+                # output.write((x['Pro argument text'][0:]))
                 i += 1  # Iterator for filename
 
             elif 'Con argument' in x:
-                output = open(new_output_path  + "con" + numberingFix(j) + ".txt", 'w')
+                output = open(new_output_path  + "con" + numberingFix(j) + ".txt", 'w', encoding="utf-8")
                 # output.write("con,")
                 output.write(textCleaner.removeJunk(x['Con argument'][0]))
                 #output.write('\n')
