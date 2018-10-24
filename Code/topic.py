@@ -31,7 +31,6 @@ class Topic:
 
         for file in os.listdir(INPUT_DIR + self._name):
             current_argument = []
-            print(self._name, file)
             for line in open(INPUT_DIR + self._name + "/" + file, "r", encoding="utf8"):
                 current_argument.append(line.rstrip())
             if file.startswith("pro"):
@@ -112,10 +111,10 @@ def train_all_topics():
         Topic(topic)
 
 if __name__ == "__main__":
-    train_all_topics()
-    # test_topic = Topic("socialNetworking")
-    # argument = "Being part of social media will decrease the quality of life of people and increase the risk of health problems"
-    # argument_type = classify_argument(argument, test_topic._name)
+    # train_all_topics()
+    test_topic = Topic("socialNetworking")
+    argument = "Being part of social media will decrease the quality of life of people and increase the risk of health problems"
+    argument_type = classify_argument(argument, test_topic._name)
     # argument_type = Argument.CON
-    # counter_argument = test_topic.get_counterargument(argument, argument_type)
-    # print(counter_argument)
+    counter_argument = test_topic.get_counterargument(argument, argument_type)
+    print(counter_argument)
