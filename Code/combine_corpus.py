@@ -17,14 +17,19 @@ def combineCorpera(intersectionBool):
         for topic in topicsCorpus:  # directory is not empty
             if topic not in intersection: #Save to just move
                 #Move directory
-                shutil.move(subdir + topic, output_path)
+                if not os.path.exists(output_path  + topic):
+                    os.makedirs(output_path  + topic)
+                copytree(subdir + topic, output_path + topic)
 
     #For corpera of ProConOrg
     for subdir, topicsCorpus, files in os.walk(corpusDirTwo):
         if topicsCorpus and 'longArguments' not in topicsCorpus:
             for topic in topicsCorpus:  # directory is not empty
                 if topic not in intersection:
-                    shutil.move(subdir + '\\' + topic, output_path)
+                    if not os.path.exists(output_path  + topic):
+                        os.makedirs(output_path + '/' + topic)
+
+                    copytree(subdir + '/' + topic, output_path + '/' + topic)
 
 
 #For the corpera with intersection between them
@@ -47,7 +52,7 @@ def combineDirectories(dir1, dir2, topic):
         #Loop through files in corpus 2 and
         for subdir, topicsCorpus, files in os.walk(dir2 + '\\' + topic):
             #Get number of the argument
-            for file in files:
+            for file in reversed(files): #reversed so bigger filenumbers don't get overwritten first
 
                 firstChar = file[0]
                 number = (file[3:])
@@ -87,9 +92,25 @@ def findIntersectionTopics():
     return list(set(topicsCorpOne) & set(topicsCorpTwo))
 
 
-def main():
-    combineCorpera(True)
-    combineRemainingCorpera()
+#Workaround for restriction of shutil: requires to copy to non-existing folder otherwiste.
+#Adapted from https://stackoverflow.com/questions/1868714/how-do-i-copy-an-entire-directory-of-files-into-an-existing-directory-using-pyth
+def copytree(src, dst, symlinks=False, ignore=None):
+    for item in os.listdir(src):
+        s = src + '/' + item
+        d = dst + '/' + item
+        if os.path.isdir(s):
+            shutil.copytree(s, d, symlinks, ignore)
+        else:
+            shutil.copy(s, d)
+
+def removeOldDirs():
+    shutil.rmtree(corpusDirOne, ignore_errors=True) #Ignore remaining files
+    shutil.rmtree(corpusDirTwo, ignore_errors=True)
+
+
+
 
 #Run
-main()
+combineCorpera(True)
+combineRemainingCorpera()
+removeOldDirs()
