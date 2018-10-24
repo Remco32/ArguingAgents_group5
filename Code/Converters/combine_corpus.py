@@ -103,7 +103,7 @@ def copytree(src, dst, symlinks=False, ignore=None):
         else:
             shutil.copy(s, d)
 
-def removeOldDirs():
+def removeOldDirs(): #TODO Leaves files behind, might be on my end
     shutil.rmtree(corpusDirOne, ignore_errors=True) #Ignore remaining files
     shutil.rmtree(corpusDirTwo, ignore_errors=True)
 

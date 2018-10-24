@@ -1,0 +1,2 @@
+ Each state's progress on NCLB tests can be meaningfully compared.
+  Even though tests are developed by states independently, state scores are compared with results on the National Assessment of Educational Progress (NAEP), ensuring each state's assessments are equally challenging and that gains in a state's test scores are valid.  

@@ -1,7 +1,7 @@
 import os
 import json
 import re
-import textCleaner
+from Code import textCleaner
 
 input_path = "../Crawler/Crawled/Debatabase/"
 output_path = "../Crawler/Corpus/Debatabase/"

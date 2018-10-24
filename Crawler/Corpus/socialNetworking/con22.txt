@@ -1,0 +1,2 @@
+ Social media users are vulnerable to security attacks such as hacking, identity theft, and viruses.
+  Social media sites do not scan messages for viruses or phishing scams, leading to large-scale problems like the virus Steckt.Evl spread from Facebook's chat window.  68% of social media users share their birth date publicly, 63% share their high school name, 18% share their phone number, 12% share a pet's name; each of those pieces of information is frequently used for account security verification and can be used for identity theft. 

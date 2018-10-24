@@ -14,9 +14,8 @@ nltk.download('averaged_perceptron_tagger')
 data = "The differences between us and other vertebrates are a matter of degree rather than kind.", "[1]", "\u00a0Not only do they closely resemble us anatomically and physiologically, but so too do they behave in ways which seem to convey meaning. They recoil from pain, appear to express fear of a tormentor, and appear to take pleasure in activities; a point clear to anyone who has observed the behaviour of a pet dog on hearing the word \u201cwalk\u201d. Our reasons for believing that our fellow humans are capable of experiencing feelings like ourselves can surely only be that they resemble us both in appearance and behaviour (we cannot read their minds). Thus any animal sharing our anatomical, physiological, and behavioural characteristics is surely likely to have feelings like us. If we accept as true for sake of argument, that all humans have a right not to be harmed, simply by virtue of existing as a being of moral worth, then we must ask what makes animals so different. If animals can feel what we feel, and suffer as we suffer, then to discriminate merely on the arbitrary difference of belonging to a different species, is\u00a0 analogous to discriminating on the basis of any other morally arbitrary characteristic, such as race or sex. If sexual and racial moral discrimination is wrong, then so too is specieism.", "[2]", "\n", "[1]", "\u00a0Clark, S., The Nature of the Beast: are animals moral?, (Oxford : Oxford University Press, 1982)", "\n", "[2]", "\u00a0Singer, P., \u201cAll Animals are Equal\u201d, in La Follette (ed.), Ethics in Practice, (Malden, Mass; Oxford : Blackwell Pub, 2007)", "\n"
 
 
-
 def cleanUp(doc):
-    #window_size = 3 #Size of the collocation window
+    # window_size = 3 #Size of the collocation window
 
     words = ""
     cleanerText = removeLinebreakTags(removeCitations(doc))
@@ -24,8 +23,6 @@ def cleanUp(doc):
     for word in cleanerText.split(" "):
         words += " " + word
     translator = str.maketrans('', '', string.punctuation)
-
-
 
     words = words.translate(translator)  # remove punctuation
     tokens = word_tokenize(words)
@@ -35,18 +32,12 @@ def cleanUp(doc):
     words_without_stopwords = [w for w in words if w.lower() not in stop_words and len(w) > 2]  # drop stop_words
     words = [w for w in words_without_stopwords if w.isalpha()]  # keep only words
 
-
-
     output = ""
     for w in words:
         output = output + nltk.stem.WordNetLemmatizer().lemmatize(w, 'v') + " "  # lemmatize verbs
 
-    #TODO find bigrams etc
+    # TODO find n-grams
     output = removeLinebreakTags(output)
-
-    #Clean the text
-    #finder = TrigramCollocationFinder.from_words(output, window_size)
-    #finder.apply_freq_filter(5) #filter out trigrams with frequency less than 5
 
     return output
 
@@ -75,7 +66,15 @@ def removeCitations(doc):
         words = doc
     return words
 
+def removeJunk(doc):
+    doc = removeLinebreakTags(removeCitations(doc))
 
-#print(removeCitations(data))
+    words = ""
+    for word in doc.split(" "):
+        word = re.sub('\[[0-9]\]', "", word) #remove citation tags
+        words += " " + word
+
+    return words
+
 #print(cleanUp(data))
-#print(removeLinebreakTags(data))
+#print(removeJunk(data))

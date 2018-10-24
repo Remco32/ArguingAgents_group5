@@ -1,7 +1,7 @@
 import os
 import json
 import re
-import textCleaner
+from Code import textCleaner
 
 #filthy hack
 def numberingFix(iterator):
@@ -34,15 +34,15 @@ for subdir, dirs, files in os.walk(input_path):
             if 'Pro argument' in x:
                 output = open(new_output_path + "pro" + numberingFix(i) + ".txt", 'w')
                 # output.write("pro,")
-                output.write(textCleaner.cleanUp(x['Pro argument'][0]))
+                output.write(textCleaner.removeJunk(x['Pro argument'][0]))
                 #output.write('\n')
-                #output.write(textCleaner.cleanUp(x['Pro argument text'][0:]))
+                #output.write((x['Pro argument text'][0:]))
                 i += 1  # Iterator for filename
 
             elif 'Con argument' in x:
                 output = open(new_output_path  + "con" + numberingFix(j) + ".txt", 'w')
                 # output.write("con,")
-                output.write(textCleaner.cleanUp(x['Con argument'][0]))
+                output.write(textCleaner.removeJunk(x['Con argument'][0]))
                 #output.write('\n')
-                #output.write(textCleaner.cleanUp(x['Con argument text'][0:]))
+                #output.write((x['Con argument text'][0:]))
                 j += 1
