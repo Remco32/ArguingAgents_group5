@@ -173,7 +173,7 @@ def classify_argument(argument, test_topic):
             nulDocs.append(doc)
             predArray.append("???")
 
-    if values[argumentFile] in proDocs:
+    if argumentFile in proDocs:
         return Argument.PRO
     else:
         return Argument.CON
