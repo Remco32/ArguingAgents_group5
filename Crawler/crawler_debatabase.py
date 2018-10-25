@@ -1,6 +1,6 @@
 ##Run using Scrapy:
 #scrapy runspider filename.py -o output.json
-#i.e. scrapy runspider crawler_debatabase_remco.py -o Crawled\Debatabase\abortion.json
+#i.e. scrapy runspider crawler_debatabase.py -o Crawled\Debatabase\abortion.json
 
 import scrapy
 
