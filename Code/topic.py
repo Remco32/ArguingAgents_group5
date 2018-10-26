@@ -1,6 +1,6 @@
 import os
 
-from TFIDF import classify_argument, Argument
+from TFIDF import classify_argument, Argument, classify_argument_2, corpusize
 from gensim.models.doc2vec import Doc2Vec, TaggedDocument
 from nltk.tokenize import word_tokenize
 from textCleaner import cleanUp
@@ -57,6 +57,9 @@ class Topic:
 
     def init_model(self):
         """Load doc2vec model from disk, or create new model from data"""
+        if not os.path.exists(MODEL_DIR):
+            os.makedirs(MODEL_DIR)
+
         try:
             self._model_pro = Doc2Vec.load(MODEL_DIR + self._name + "_pro.model")
             self._model_con = Doc2Vec.load(MODEL_DIR + self._name + "_con.model")
@@ -119,14 +122,41 @@ def train_all_topics():
         topic_object.init_model()
 
 
+def evaluate_classify_2():
+    print("hello")
+    correct = 0
+    wrong = 0
+
+    for topic in os.listdir(INPUT_DIR):
+        print(topic)
+        topic_object = Topic(topic)
+
+        for argument in topic_object._data_pro:
+            argument_type = classify_argument_2(argument)
+            if argument_type == Argument.PRO:
+                correct += 1
+            else:
+                wrong += 1
+
+        for argument in topic_object._data_con:
+            argument_type = classify_argument_2(argument)
+            if argument_type == Argument.CON:
+                correct += 1
+            else:
+                wrong += 1
+
+        print(correct)
+        print(wrong)
+
+
+
 if __name__ == "__main__":
-    # Check for directory
-    if not os.path.exists(MODEL_DIR):
-        os.makedirs(MODEL_DIR)
     # train_all_topics()
-    test_topic = Topic("socialNetworking")
-    argument = "Being part of social media will decrease the quality of life of people and increase the risk of health problems"
-    argument_type = classify_argument(argument, test_topic._name)
-    # argument_type = Argument.CON
-    counter_argument = test_topic.get_counterargument(argument, argument_type)
-    print(counter_argument)
+    # test_topic = Topic("socialNetworking")
+    # argument = "Being part of social media will decrease the quality of life of people and increase the risk of health problems"
+    # argument_type = classify_argument(argument, test_topic._name)
+    # # argument_type = Argument.CON
+    # counter_argument = test_topic.get_counterargument(argument, argument_type)
+    # print(counter_argument)
+
+    evaluate_classify_2()

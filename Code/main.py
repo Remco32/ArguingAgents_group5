@@ -1,6 +1,6 @@
 import os
 
-from TFIDF import classify_argument
+from TFIDF import classify_argument, classify_argument_2
 from topic import Topic
 
 
@@ -27,7 +27,7 @@ if __name__ == "__main__":
             if function == "2":
                 argument = input("Give argument: \n")
 
-                argument_type = classify_argument(argument, choice)
+                argument_type = classify_argument_2(argument)
                 print("Argument was classified as: " + argument_type.value)
 
                 ca = topic_object.get_counterargument(argument, argument_type)

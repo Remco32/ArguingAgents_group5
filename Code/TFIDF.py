@@ -6,6 +6,7 @@
 
 import math
 import operator
+import os
 from collections import Counter
 from enum import Enum
 
@@ -185,6 +186,37 @@ def classify_argument(argument, test_topic):
         return Argument.PRO
     else:
         return Argument.CON
+
+
+def classify_argument_2(argument):
+
+    clean_argument = cleanUp(argument)
+    pos_neg_dict = make_dict()
+
+    pro = 0
+    con = 0
+
+    for word in clean_argument.split(" "):
+        if word in pos_neg_dict:
+            if pos_neg_dict[word] == "pos":
+                pro += 1
+        else:
+            con += 1
+
+    if pro >= con:
+        return Argument.PRO
+    else:
+        return Argument.CON
+
+
+def make_dict():
+    pos_neg_dict = {}
+    for line in open("../Resources/Opinion Lexicon/Trimmed/negative-words-trimmed.txt"):
+        pos_neg_dict[line.rstrip()] = "neg"
+    for line in open("../Resources/Opinion Lexicon/Trimmed/negative-words-trimmed.txt"):
+        pos_neg_dict[line.rstrip()] = "pos"
+
+    return pos_neg_dict
 
 
 if __name__ == "__main__":
