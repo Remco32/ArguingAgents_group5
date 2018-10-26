@@ -21,7 +21,7 @@ if __name__ == "__main__":
 
         while True:
             function = input(
-                "1) List arguments \n2) Classify argument and get counterargument \n3) Go back to topics \n")
+                 choice + ":\n1) List arguments \n2) Classify argument and get counterargument \n3) Go back to topics \n")
             if function == "1":
                 topic_object.list_arguments()
             if function == "2":

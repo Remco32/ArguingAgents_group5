@@ -8,11 +8,11 @@ nltk.download('punkt') # Needer for tokenizer
 nltk.download('stopwords') # Needed for... stopwords
 nltk.download('wordnet') # Needed for lematization
 
+
 def cleanUp(doc):
     words = ""
-    cleanerText = removeLinebreakTags(removeCitations(doc))
 
-    for word in cleanerText.split(" "): #split words
+    for word in str(doc).split(" "): #split words
         words += " " + word
 
     translator = str.maketrans('', '', string.punctuation) #create unicode representation
