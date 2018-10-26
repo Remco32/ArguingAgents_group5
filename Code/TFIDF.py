@@ -200,8 +200,8 @@ def classify_argument_2(argument):
         if word in pos_neg_dict:
             if pos_neg_dict[word] == "pos":
                 pro += 1
-        else:
-            con += 1
+            else:
+                con += 1
 
     if pro >= con:
         return Argument.PRO
@@ -213,7 +213,7 @@ def make_dict():
     pos_neg_dict = {}
     for line in open("../Resources/Opinion Lexicon/Trimmed/negative-words-trimmed.txt"):
         pos_neg_dict[line.rstrip()] = "neg"
-    for line in open("../Resources/Opinion Lexicon/Trimmed/negative-words-trimmed.txt"):
+    for line in open("../Resources/Opinion Lexicon/Trimmed/positive-words-trimmed.txt"):
         pos_neg_dict[line.rstrip()] = "pos"
 
     return pos_neg_dict
