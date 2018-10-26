@@ -3,43 +3,33 @@ from nltk.corpus import stopwords
 import string
 from nltk.tokenize import word_tokenize
 import re
-from nltk.collocations import TrigramAssocMeasures, TrigramCollocationFinder
-#from JSONToCSV import JSONToCSV
 
-nltk.download('punkt')
-nltk.download('stopwords')
-nltk.download('wordnet')
-nltk.download('averaged_perceptron_tagger')
-
-data = "The differences between us and other vertebrates are a matter of degree rather than kind.", "[1]", "\u00a0Not only do they closely resemble us anatomically and physiologically, but so too do they behave in ways which seem to convey meaning. They recoil from pain, appear to express fear of a tormentor, and appear to take pleasure in activities; a point clear to anyone who has observed the behaviour of a pet dog on hearing the word \u201cwalk\u201d. Our reasons for believing that our fellow humans are capable of experiencing feelings like ourselves can surely only be that they resemble us both in appearance and behaviour (we cannot read their minds). Thus any animal sharing our anatomical, physiological, and behavioural characteristics is surely likely to have feelings like us. If we accept as true for sake of argument, that all humans have a right not to be harmed, simply by virtue of existing as a being of moral worth, then we must ask what makes animals so different. If animals can feel what we feel, and suffer as we suffer, then to discriminate merely on the arbitrary difference of belonging to a different species, is\u00a0 analogous to discriminating on the basis of any other morally arbitrary characteristic, such as race or sex. If sexual and racial moral discrimination is wrong, then so too is specieism.", "[2]", "\n", "[1]", "\u00a0Clark, S., The Nature of the Beast: are animals moral?, (Oxford : Oxford University Press, 1982)", "\n", "[2]", "\u00a0Singer, P., \u201cAll Animals are Equal\u201d, in La Follette (ed.), Ethics in Practice, (Malden, Mass; Oxford : Blackwell Pub, 2007)", "\n"
-
+nltk.download('punkt') # Needer for tokenizer
+nltk.download('stopwords') # Needed for... stopwords
+nltk.download('wordnet') # Needed for lematization
 
 def cleanUp(doc):
-    # window_size = 3 #Size of the collocation window
-
     words = ""
     cleanerText = removeLinebreakTags(removeCitations(doc))
 
-    for word in cleanerText.split(" "):
+    for word in cleanerText.split(" "): #split words
         words += " " + word
-    translator = str.maketrans('', '', string.punctuation)
 
+    translator = str.maketrans('', '', string.punctuation) #create unicode representation
     words = words.translate(translator)  # remove punctuation
-    tokens = word_tokenize(words)
+
+    #Remove stopwords
+    tokens = word_tokenize(words) #Tokenize into individual words
     words = tokens.copy()
     stop_words = stopwords.words("english")
-
-    words_without_stopwords = [w for w in words if w.lower() not in stop_words and len(w) > 2]  # drop stop_words
-    words = [w for w in words_without_stopwords if w.isalpha()]  # keep only words
+    wordsWithoutStopwords = [w for w in words if w.lower() not in stop_words and len(w) > 2]  # drop stopwords
+    words = [w for w in wordsWithoutStopwords if w.isalpha()]  # keep only words
 
     output = ""
     for w in words:
-        output = output + nltk.stem.WordNetLemmatizer().lemmatize(w, 'v') + " "  # lemmatize verbs
+        output = output + nltk.stem.WordNetLemmatizer().lemmatize(w, 'v') + " "  # lemmatize the verbs
 
-    # TODO find n-grams
-    output = removeLinebreakTags(output)
-
-    return output
+    return removeLinebreakTags(output)
 
 #Removes linebreak tags and returns a single string.
 def removeLinebreakTags(doc):
@@ -66,6 +56,7 @@ def removeCitations(doc):
         words = doc
     return words
 
+#Only removes junk caused by crawling the webpage.
 def removeJunk(doc):
     doc = removeLinebreakTags(removeCitations(doc))
 
@@ -75,6 +66,3 @@ def removeJunk(doc):
         words += " " + word
 
     return words
-
-#print(cleanUp(data))
-#print(removeJunk(data))
