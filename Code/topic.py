@@ -1,9 +1,9 @@
-from enum import Enum
-from textCleaner import cleanUp
+import os
+
+from TFIDF import classify_argument, Argument
 from gensim.models.doc2vec import Doc2Vec, TaggedDocument
 from nltk.tokenize import word_tokenize
-from TFIDF import classify_argument, Argument
-import os
+from textCleaner import cleanUp
 
 INPUT_DIR = "../Crawler/Corpus/"
 MODEL_DIR = "../D2V_models/"
@@ -24,7 +24,6 @@ class Topic:
         self._model_con = None  # doc2vec model for this topic
 
         self.load_data()
-        self.init_model()
 
     def load_data(self):
         """Load arguments in corpus format for this topic, clean and tokenize them"""
@@ -49,9 +48,9 @@ class Topic:
             cleaned_data_con.append(clean_argument)
 
         tagged_data_pro = [TaggedDocument(words=word_tokenize(_d.lower()), tags=[str(i)]) for i, _d in
-                       enumerate(cleaned_data_pro)]
+                           enumerate(cleaned_data_pro)]
         tagged_data_con = [TaggedDocument(words=word_tokenize(_d.lower()), tags=[str(i)]) for i, _d in
-                       enumerate(cleaned_data_con)]
+                           enumerate(cleaned_data_con)]
 
         self._tagged_data_pro = tagged_data_pro
         self._tagged_data_con = tagged_data_con
@@ -64,54 +63,64 @@ class Topic:
         except FileNotFoundError:
             # No model yet, create new model
             self._model_pro = Doc2Vec(vector_size=FEATURE_VECTOR_SIZE,  # size of the feature vector
-                            alpha=ALPHA,  # initial learning rate
-                            min_alpha=0.00025,  # learning rate will linearly decrease to this during training
-                            min_count=1  # ignores words with frequency lower than min_count
-                            )
+                                      alpha=ALPHA,  # initial learning rate
+                                      min_alpha=0.00025,  # learning rate will linearly decrease to this during training
+                                      min_count=1  # ignores words with frequency lower than min_count
+                                      )
             self._model_con = Doc2Vec(vector_size=FEATURE_VECTOR_SIZE,  # size of the feature vector
-                            alpha=ALPHA,  # initial learning rate
-                            min_alpha=0.00025,  # learning rate will linearly decrease to this during training
-                            min_count=1  # ignores words with frequency lower than min_count
-                            )
+                                      alpha=ALPHA,  # initial learning rate
+                                      min_alpha=0.00025,  # learning rate will linearly decrease to this during training
+                                      min_count=1  # ignores words with frequency lower than min_count
+                                      )
 
             self._model_pro.build_vocab(self._tagged_data_pro)
             self._model_con.build_vocab(self._tagged_data_con)
 
             self._model_pro.train(self._tagged_data_pro,
-                        total_examples=self._model_pro.corpus_count,
-                        epochs=EPOCHS
-                        )
+                                  total_examples=self._model_pro.corpus_count,
+                                  epochs=EPOCHS
+                                  )
             self._model_con.train(self._tagged_data_con,
-                        total_examples=self._model_con.corpus_count,
-                        epochs=EPOCHS
-                        )
+                                  total_examples=self._model_con.corpus_count,
+                                  epochs=EPOCHS
+                                  )
 
             self._model_pro.save(MODEL_DIR + self._name + "_pro.model")
             self._model_con.save(MODEL_DIR + self._name + "_con.model")
 
     def get_counterargument(self, argument, argument_type):
+        self.init_model()
         test_data = word_tokenize(argument.lower())
         if argument_type == Argument.CON:
             test_vector = self._model_pro.infer_vector(test_data)
             similar = self._model_pro.docvecs.most_similar([test_vector])
             ca = self._data_pro[int(similar[0][0])]
-            print(self._model_con.docvecs.most_similar([test_vector]))
         else:
             test_vector = self._model_con.infer_vector(test_data)
             similar = self._model_con.docvecs.most_similar([test_vector])
             ca = self._data_con[int(similar[0][0])]
-            print(self._model_con.docvecs.most_similar([test_vector]))
 
         return ca
+
+    def list_arguments(self):
+        print("Pro arguments: ")
+        for argument in self._data_pro:
+            print(argument)
+
+        print("Con arguments: ")
+        for argument in self._data_con:
+            print(argument)
 
 
 def train_all_topics():
     """Create a trained model for every topic in the corpus"""
     for topic in os.listdir(INPUT_DIR):
-        Topic(topic)
+        topic_object = Topic(topic)
+        topic_object.init_model()
+
 
 if __name__ == "__main__":
-    #Check for directory
+    # Check for directory
     if not os.path.exists(MODEL_DIR):
         os.makedirs(MODEL_DIR)
     # train_all_topics()

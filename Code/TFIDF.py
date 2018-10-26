@@ -6,38 +6,39 @@
 
 import math
 import operator
-import pandas as pd
+from collections import Counter
 from enum import Enum
 
+import pandas as pd
 from nltk.corpus.reader.plaintext import PlaintextCorpusReader
-from collections import Counter
 from textCleaner import cleanUp
 
 
 class Argument(Enum):
-    PRO = 1
-    CON = 2
+    PRO = "pro"
+    CON = "con"
 
 
-#
 # Create a representation of a given corpus for a single document
 def TFIDFRep(corpus, doc):
     term_counts = Counter(corpus.words(doc))
-    #print('TF.DIF values of words in ' + doc)
+    # print('TF.DIF values of words in ' + doc)
     rep = dict()
-    #Calculate TFIDF values
+    # Calculate TFIDF values
     for term in term_counts:
         value = TFIDF(term, doc, corpus, term_counts)
         rep[term] = value
     # sort the found TF.IDF values
     rep = rankValues(rep)
-    #print(rep)
+    # print(rep)
     return rep
+
 
 # Calculate the TF.IDF value
 def TFIDF(term, doc, docs, term_counts):
     words = docs.words(doc)
     return TF(term, words, term_counts) * IDF(term, docs)
+
 
 # Calculate the TF
 def TF(term, words, term_counts):
@@ -45,10 +46,12 @@ def TF(term, words, term_counts):
     count = term_counts[term]
     return math.log(count / total_no_terms)
 
+
 # Calculate the IDF
 def IDF(term, docs):
     n = len(docs.fileids())
-    return math.log((n+1)/(DF(term, docs)+1))+1
+    return math.log((n + 1) / (DF(term, docs) + 1)) + 1
+
 
 # Calculate the DF
 def DF(term, docs):
@@ -58,9 +61,11 @@ def DF(term, docs):
             docs_counts = docs_counts + 1
     return docs_counts
 
+
 # Sort the TF.IDF values from top to bottom
 def rankValues(values):
     return sorted(values.items(), key=operator.itemgetter(1))
+
 
 # Create corpus from text files
 def corpusize(filepath):
@@ -68,6 +73,7 @@ def corpusize(filepath):
         filepath = filepath + '/'
 
     return PlaintextCorpusReader(filepath, '.*')
+
 
 # Create a confusion matrix for this corpus
 def confMatrix(predArray, corpus):
@@ -91,6 +97,7 @@ def confMatrix(predArray, corpus):
 
     print(df_confusion)
     print("Accuracy: ", accuracy, "%")
+
 
 def test(filepath):
     corpus = corpusize("../" + filepath)
@@ -133,6 +140,7 @@ def test(filepath):
 
 
 def classify_argument(argument, test_topic):
+    print("Classifying argument as pro or con. This may take a while...")
     topicpath = '../Crawler/Corpus/' + test_topic + '/'
 
     # Create a file for the argument in the correct folder
@@ -177,6 +185,7 @@ def classify_argument(argument, test_topic):
         return Argument.PRO
     else:
         return Argument.CON
+
 
 if __name__ == "__main__":
     test('Crawler/Corpus/realityTV')
