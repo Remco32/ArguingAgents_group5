@@ -2,6 +2,7 @@ import os
 
 from TFIDF import classify_argument, classify_argument_2
 from topic import Topic
+from textCleaner import cleanUp
 
 
 if __name__ == "__main__":
@@ -25,7 +26,7 @@ if __name__ == "__main__":
             if function == "1":
                 topic_object.list_arguments()
             if function == "2":
-                argument = input("Give argument: \n")
+                argument = cleanUp(input("Give argument: \n"))
 
                 argument_type = classify_argument_2(argument)
                 print("Argument was classified as: " + argument_type.value)
