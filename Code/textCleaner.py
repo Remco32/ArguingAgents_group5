@@ -29,7 +29,7 @@ def cleanUp(doc):
     for w in words:
         output = output + nltk.stem.WordNetLemmatizer().lemmatize(w, 'v') + " "  # lemmatize the verbs
 
-    return removeLinebreakTags(output)
+    return output
 
 #Removes linebreak tags and returns a single string.
 def removeLinebreakTags(doc):

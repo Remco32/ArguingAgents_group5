@@ -1,4 +1,4 @@
-#TODO change this to a cmdline script
+#!/bin/bash
 scrapy runspider crawler_debatabase.py -o Crawled\Debatabase\airbrushing.json -a domain=https://idebate.org/debatabase/culture-media/should-airbrushing-womens-bodies-be-banned
 scrapy runspider crawler_debatabase.py -o Crawled\Debatabase\singleSexSchools.json -a domain=https://idebate.org/debatabase/education/house-believes-single-sex-schools-are-good-education
 scrapy runspider crawler_debatabase.py -o Crawled\Debatabase\animalTesting.json -a domain=https://idebate.org/debatabase/environment-animals-philosophy-ethics-science-science-general/house-would-ban-animal
