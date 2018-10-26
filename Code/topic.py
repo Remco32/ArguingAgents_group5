@@ -65,16 +65,8 @@ class Topic:
             self._model_con = Doc2Vec.load(MODEL_DIR + self._name + "_con.model")
         except FileNotFoundError:
             # No model yet, create new model
-            self._model_pro = Doc2Vec(vector_size=FEATURE_VECTOR_SIZE,  # size of the feature vector
-                                      alpha=ALPHA,  # initial learning rate
-                                      min_alpha=0.00025,  # learning rate will linearly decrease to this during training
-                                      min_count=1  # ignores words with frequency lower than min_count
-                                      )
-            self._model_con = Doc2Vec(vector_size=FEATURE_VECTOR_SIZE,  # size of the feature vector
-                                      alpha=ALPHA,  # initial learning rate
-                                      min_alpha=0.00025,  # learning rate will linearly decrease to this during training
-                                      min_count=1  # ignores words with frequency lower than min_count
-                                      )
+            self._model_pro = Doc2Vec()
+            self._model_con = Doc2Vec()
 
             self._model_pro.build_vocab(self._tagged_data_pro)
             self._model_con.build_vocab(self._tagged_data_con)
